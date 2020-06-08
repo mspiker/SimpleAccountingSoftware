@@ -1,0 +1,31 @@
+﻿@page
+@model SimpleAccountingSoftware.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    ViewData["ShowButtons"] = true;
+}
+
+<style>
+    .btn {
+        width: 75px;
+    }
+</style>
+
+
+<form method="get">
+    <div class="input-group">
+        <input class="form-control" asp-for="SearchTerm" />
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+</form>
+
+<h1>Inventory</h1>
+<a asp-page="/Inventory/Edit" class="btn btn-primary m-1">Create</a>
+<div class="card-deck">
+    @foreach (var item in Model.Items)
+    {
+        <partial name="_DisplayItemPartial" model="item" view-data="ViewData" />
+    }
+</div>

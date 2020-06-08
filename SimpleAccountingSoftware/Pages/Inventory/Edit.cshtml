@@ -1,0 +1,121 @@
+﻿@page "{id:min(1)?}"
+@model SimpleAccountingSoftware.EditModel
+@{
+    ViewData["Title"] = "Edit";
+    var photoPath = "~/images/" + (Model.Item.PhotoPath ?? "noimage.png");
+    var pageHeader = Model.Item.Id > 0 ? "Edit" : "Create";
+}
+
+<h1>@pageHeader</h1>
+
+@* See Part 17 of ASP.NET core razor pages tutorial to learn how to seperate a page
+    into multiple forms and it shows a good example of how to construct a check box.
+*@
+
+@* We need to place enctype = "multipart/form-data" since we have a file upload. *@
+<form method="post" class="mt-3" enctype="multipart/form-data">
+    <input hidden asp-for="Item.Id" />
+    <input hidden asp-for="Item.PhotoPath" />
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group row">
+        <label asp-for="Item.Name" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Item.Name" class="form-control" placeholder="Item Name" />
+            <span asp-validation-for="Item.Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Item.Sku" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Item.Sku" class="form-control" placeholder="Item SKU" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Item.Location" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <select asp-for="Item.Location" class="custom-select mr-sm-2"
+                    asp-items="Html.GetEnumSelectList<Location>()">
+                <option value="">Please Select</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Item.OnHand" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Item.OnHand" class="form-control" placeholder="On Hand Count" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Item.Ordered" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Item.Ordered" class="form-control" placeholder="Number on order" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Item.BackOrdered" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Item.BackOrdered" class="form-control" placeholder="Backordered" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Item.Cost" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-4">
+            <input asp-for="Item.Cost" class="form-control" placeholder="Your Cost" />
+        </div>
+        <label asp-for="Item.Retail" class="col-sm-2 col-form-label text-right"></label>
+        <div class="col-sm-4">
+            <input asp-for="Item.Retail" class="form-control" placeholder="Retail" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Photo" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <div class="custom-file">
+                <input asp-for="Photo" class="custom-file-input form-control" />
+                <label class="custom-file-label">Click here to change photo</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row col-sm-4 offset-4">
+        <img class="imageThumbnail" src="@photoPath" asp-append-version="true" />
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-page="/Inventory/Index" class="btn btn-primary">Cancel</a>
+        </div>
+    </div>
+
+    
+    @section Scripts {
+        <script>
+            // Once a file is selected this will populate the name of the selected file
+            // in the file selection control on the page, otherwise it's only available
+            // in the tooltip when you hover over it.  
+            $(document).ready(function () {
+                $('.custom-file-input').on("change", function () {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).next('.custom-file-label').html(fileName);
+                })
+            })
+        </script>
+        
+        @* This adds support for Client-Side validation.  Good case to be made for having
+            both Client- and Server-side validation in part 21 of ASP.NET core razor pages
+            tutorial around the 5:30 timeframe.
+        *@
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+</form>

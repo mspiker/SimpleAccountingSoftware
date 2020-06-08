@@ -1,0 +1,37 @@
+﻿@page "/inventory/view/{id:int}"
+@model SimpleAccountingSoftware.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+    var photoPath = "~/images/" + (Model.Item.PhotoPath ?? "noimage.png");
+}
+
+<h1>Details</h1>
+
+<div class=" row justify-content-center m-3">
+    <div class="col-sm-8">
+        @await Component.InvokeAsync("InventoryCount");
+    </div>
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.Item.Name</h1>
+                <p>@Model.Item.Sku</p>
+            </div>
+            <div class="card-body text-center">
+                <img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true" />
+
+                <h4>Item ID : @Model.Item.Id</h4>
+                <h4>Location : @Model.Item.Location</h4>
+                <h4>Cost / Retail : @Model.Item.Cost / @Model.Item.Retail</h4>
+                <h4>OH / Back / Order : @Model.Item.OnHand / @Model.Item.BackOrdered / @Model.Item.Ordered</h4>
+                
+            </div>
+            <div class="card-footer text-center">
+                <a asp-page="index" class="btn btn-primary">Back</a>
+                <a href="#" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </div>
+
+        </div>
+    </div>
+</div>

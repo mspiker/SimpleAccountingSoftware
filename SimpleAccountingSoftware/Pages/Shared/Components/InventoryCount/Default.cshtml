@@ -1,0 +1,25 @@
+﻿@model IEnumerable<InventoryCount>
+
+<h3>Inventory Count</h3>
+
+<table class="table table-bordered">
+    <thead class="thead-dark-light">
+        <tr>
+            <th>Location</th>
+            <th>Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var itemCount in Model)
+        {
+            <tr>
+                <td>
+                    @itemCount.Location
+                </td>
+                <td>
+                    @itemCount.Count
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
